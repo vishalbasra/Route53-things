@@ -36,12 +36,10 @@ def alter_resource_record(zone_id, host_name, hosted_zone_name, rectype, ttl, ac
 
         try:  #  API request to interact with Route 53!
             route53.change_resource_record_sets(HostedZoneId=zone_id, ChangeBatch=dns_changes)
-            #time.sleep(2) # - is this needed? - timeouts if hit from  from DFT / PD perhaps? 
-            # if ^ is needed, please import the time package also 
         except BaseException as e:
             #print e
             #sys.exit('ERROR: Incorrect input specified for the update of the domain  %s' % hosted_zone_name)
-            # maybe we want to send the exception as part of the response body also ?
+            # maybe you want to send the exception as part of the response body also ? ; If so add it in the `body_text` variable below 
             body_text = 'ERROR: Record %s.%s could not be %s to %s for domain %s' % (host_name,hosted_zone_name,action_keyword,value,hosted_zone_name)
             return return_response(400,body_text)
         else:
